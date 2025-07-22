@@ -4,7 +4,7 @@ import { IconType } from 'react-icons';
 type CardProps = {
   label: string;
   value: number | string | null | undefined;
-  unit: string;
+  unit?: string;
   icon?: IconType;
   spin?: boolean;
 };
