@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model WeatherReading {
+  id             Int      @id @default(autoincrement())
+  timestamp      DateTime @default(now())
+
+  outdoorTempC   Float
+  outdoorTempF   Float
+  humidityPercent Float
+  dewPointC      Float
+  dewPointF      Float
+
+  indoorTempC    Float
+  indoorTempF    Float
+
+  rainfall24hIn  Float
+  rainfall24hMM  Float
+
+  uvIndex        Float
+  solarRadiation Float
+
+  pressureInHg   Float
+  pressurehPa    Float
+
+  windSpeedMph   Float
+  windSpeedKmh   Float
+  windDirDeg     Float
+  windAvgMph     Float
+  windGustMph    Float
+}
