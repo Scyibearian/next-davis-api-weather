@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { Card } from '@/components/Card';
-import { SunIcon, ArrowPathIcon, ArrowUpIcon, CloudIcon } from '@heroicons/react/24/outline';
+import WeatherGraph from '@/components/WeatherGraph';
+import { SunIcon, ArrowPathIcon, ArrowUpIcon, CloudIcon, HomeIcon } from '@heroicons/react/24/outline';
 
 // Helper to convert Fahrenheit to Celsius
 const toCelsius = (f: number) => ((f - 32) * 5) / 9;
@@ -45,7 +46,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 p-8 overflow-x-auto">
-      <h1 className="text-4xl font-bold text-center text-blue-900 mb-8">Stone Lane Weather</h1>
+      <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">Stone Lane Weather</h1>
 
       <div className="flex flex-col lg:flex-row gap-10">
         {/* 🌡️ Temperature Column */}
@@ -53,10 +54,10 @@ export default function Home() {
           <h2 className="text-xl font-semibold text-blue-700 mb-4 border-b border-blue-300 pb-2 text-center">
             🌡️ Temperature
           </h2>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             <Card label="Outdoor Temp" value={formatTemp(weatherData.outdoorTempC)} unit="" />
             <Card label="Humidity" value={formatNumber(weatherData.humidityPercent, '%')} unit="" />
-            <Card label="Indoor Temp" value={formatTemp(weatherData.indoorTempC)} unit="" />
+            <Card label="Indoor Temp" value={formatTemp(weatherData.indoorTempC)} unit="" icon={HomeIcon} />
             <Card label="Dew Point" value={formatTemp(weatherData.dewPointC)} unit="" />
           </div>
         </section>
@@ -66,7 +67,7 @@ export default function Home() {
           <h2 className="text-xl font-semibold text-blue-700 mb-4 border-b border-blue-300 pb-2 text-center">
             🌤️ Weather
           </h2>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             <Card label="UV Index" value={formatNumber(weatherData.uvIndex)} unit="" />
             <Card label="Solar Radiation" value={formatNumber(weatherData.solarRadiation, 'W/m²')} unit="" icon={SunIcon} spin />
             <Card label="Rain (24h)" value={formatNumber(weatherData.rainfall24hMM, 'mm')} unit="" />
@@ -79,14 +80,24 @@ export default function Home() {
           <h2 className="text-xl font-semibold text-blue-700 mb-4 border-b border-blue-300 pb-2 text-center">
             💨 Wind
           </h2>
-          <div className="grid grid-cols-1 gap-6">
-            <Card label="Wind Speed (Last)" value={formatNumber(weatherData.windSpeedMph, 'mph')} unit="" icon={ArrowPathIcon} spin />
-            <Card label="Wind Dir (Last)" value={formatNumber(weatherData.windDirDeg, '°')} unit="" icon={ArrowUpIcon} />
+          <div className="grid grid-cols-1 gap-4">
+            <Card label="Wind Speed (Last)" value={formatNumber(weatherData.windSpeedMph, 'mph')} unit="" />
+            <Card label="Wind Dir (Last)" value={formatNumber(weatherData.windDirDeg, '°')} unit="" />
             <Card label="Wind Avg (10 min)" value={formatNumber(weatherData.windAvgMph, 'mph')} unit="" icon={ArrowPathIcon} spin />
-            <Card label="Wind Gust (10 min)" value={formatNumber(weatherData.windGustMph, 'mph')} unit="" icon={CloudIcon} />
+            <Card label="Wind Gust (10 min)" value={formatNumber(weatherData.windGustMph, 'mph')} unit="" />
           </div>
         </section>
       </div>
+
+      <div className="mt-6 flex flex-col lg:flex-row gap-8">
+        <div className="flex-1 bg-white p-4 rounded-lg shadow">
+          <WeatherGraph metric="windSpeedKmh" defaultHours={6} label="Wind Speed" unit=" km/h" />
+        </div>
+        <div className="flex-1 bg-white p-4 rounded-lg shadow">
+          <WeatherGraph metric="outdoorTempC" defaultHours={24} label="Outdoor Temperature" unit=" °C" />
+        </div>
+      </div>
+
     </div>
   );
 }
