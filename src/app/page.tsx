@@ -26,6 +26,7 @@ export default function Home() {
 
   const fetchWeather = async () => {
     try {
+      //console.log('Fetching weather at', new Date().toLocaleTimeString());
       const res = await fetch('/api/weather');
       const json = await res.json();
       setWeatherData(json.data);
@@ -36,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchWeather();
-    const interval = setInterval(fetchWeather, 5000);
+    const interval = setInterval(fetchWeather, 20000); //Fetch weather every 20 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -95,6 +96,15 @@ export default function Home() {
         </div>
         <div className="flex-1 bg-white p-4 rounded-lg shadow">
           <WeatherGraph metric="outdoorTempC" defaultHours={24} label="Outdoor Temperature" unit=" °C" />
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-col lg:flex-row gap-8">
+        <div className="flex-1 bg-white p-4 rounded-lg shadow">
+          <WeatherGraph metric="rainfall24hIn" defaultHours={168} label="Rainfall" unit=" in" />
+        </div>
+        <div className="flex-1 bg-white p-4 rounded-lg shadow">
+          <WeatherGraph metric="uvIndex" defaultHours={1} label="UV Index" unit="" />
         </div>
       </div>
 

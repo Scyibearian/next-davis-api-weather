@@ -7,19 +7,19 @@ interface WeatherGraphProps {
   metric: string;
   label: string;
   unit: string;
-  defaultHours?: number; // optional prop for initial hours
+  defaultHours?: number;
 }
 
 export default function WeatherGraph({
   metric,
   label,
   unit,
-  defaultHours = 24, // default fallback to 24 if not provided
+  defaultHours = 24,
 }: WeatherGraphProps) {
   const [hours, setHours] = useState(defaultHours);
   const [data, setData] = useState<any[]>([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch(`/api/weather/history?metric=${metric}&hours=${hours}`)
       .then(res => res.json())
       .then(json => {
@@ -32,6 +32,21 @@ export default function WeatherGraph({
         }));
         setData(formatted);
       });
+  };
+
+  // Fetch data when component mounts and when metric or hours change
+  useEffect(() => {
+    fetchData();
+  }, [metric, hours]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetchData();
+      const interval = setInterval(fetchData, 300000); // every 5 mins
+      return () => clearInterval(interval);
+    }, 10000); // wait 10 seconds before first fetch //Better would be to sync with actual database input timestamp
+
+    return () => clearTimeout(timeout);
   }, [metric, hours]);
 
   return (

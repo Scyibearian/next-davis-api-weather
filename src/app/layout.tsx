@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { startWeatherLogging } from '@/lib/weather-logger';
+//import { startWeatherLogging } from '@/lib/weather-logger';
 
 export const metadata: Metadata = {
   title: 'Weather App',
@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 };
 
 // Start logger only in dev or production server mode (not in build)
-if (typeof window === 'undefined') {
-  startWeatherLogging();
-}
+// if (typeof window === 'undefined') {
+//   startWeatherLogging();
+// }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
